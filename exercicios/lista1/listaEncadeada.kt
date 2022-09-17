@@ -61,10 +61,45 @@ fun <T> removeEnesimo(lista:LinkedList<T>?, n:Int) : LinkedList<T>?{
     }
 
     return LinkedList<T>(Node(lista.head.elemento, removeEnesimo(LinkedList(Node(lista.head.proximo.elemento, lista.head.proximo.proximo)),n-1)?.head));
-  }
+}
+
+//1.f Implemente uma funções para quebrar uma lista em duas a partir de uma determinada posição
+fun <T> quebraLista(lista: LinkedList<T>?, n:Int): Pair<LinkedList<T>?, LinkedList<T>?>{
+    
+    if(lista?.head == null) return Pair(null,null);
+    
+    else if(lista.head.proximo == null) return Pair(lista, null); //Nem chegou no n, e não possui mais indices para percorrer, então só retornamos a lista pra l1 e null pra l2
+    else if(n == 1) { //Caso base
+        val l1 = LinkedList<T>(Node(lista.head.elemento, null)); //1a lista só contendo um elemento apontando pra null
+        val l2 = LinkedList<T>(Node(lista.head.proximo.elemento, lista.head.proximo.proximo)) //A 2a lista contendo o resto da lista original
+        return Pair(l1,l2)
+    }
+
+    val parQuebrado = quebraLista(LinkedList<T>(Node(lista.head.proximo.elemento,lista.head.proximo.proximo)), n-1); //Recursão da lista, devolvendo 2 listas(l1 e l2)
+    val l1 = LinkedList(Node(lista.head.elemento,parQuebrado.first?.head)); //Precisamos criar uma lista para l1, pois como no caso base l1 está escrito como 'head.elemento', nós meio q pulamos o primeiro node.
+    val l2 = parQuebrado.second //Como a lista 2 já é devolvida, é de boa só pegar o retorno;
+    return Pair(l1,l2)
+    
+}
+
+//1.g Implemente uma função dividir uma lista em duas a partir de uma função de seleção.
+//Tipo retirar os numeros pares de uma lista e jogar em outra
+fun <T> quebraListaFuncao(lista:LinkedList<T>?, funcao:(T) -> Boolean):Pair<LinkedList<T>?,LinkedList<T>?>{
+    if(lista?.head == null) return Pair(null,null);
+    else if(funcao(lista.head.elemento)){ //Caso base
+      val l1 = quebraListaFuncao(LinkedList<T>(Node(lista.head?.proximo, lista.head?.proximo?.proximo)));
+      val l2 = LinkedList<T>(Node(lista.head.elemento, null));
+      return Pair(null, l2);
+    }
+
+    return LinkedList  
+
+}
+
+
 fun main (){
     println("Lista encadeada")
-
+    
 
     val lista1: LinkedList<Int> = LinkedList<Int>(Node(1,Node(2,Node(3,Node<Int>(6,null)))));
     val lista2: LinkedList<Int> = LinkedList<Int>(Node(1,Node(3,Node<Int>(6,null))));
@@ -84,6 +119,11 @@ fun main (){
     println("ultimo elemento da lista 1: ${retornaUltimoElemento(lista1)}");
     val lista12 = concatenaLista(lista1,lista2);
     println("lista1 + lista2 : ${lista12}");
-    
     println("Removendo o 2o valor dessa lista concatenada: ${removeEnesimo(lista12, 2)}")
+    val par =  {x:Int -> quebraLista(lista12,x)};
+
+    println("Dividindo a lista mesclada na posicao 2: ${par(2)}")
+    println("Dividindo a lista mesclada na posicao 1: ${par(1)}")
+
+
 }
