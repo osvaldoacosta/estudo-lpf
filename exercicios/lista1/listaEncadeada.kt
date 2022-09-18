@@ -84,26 +84,52 @@ fun <T> quebraLista(lista: LinkedList<T>?, n:Int): Pair<LinkedList<T>?, LinkedLi
 
 //1.g Implemente uma função dividir uma lista em duas a partir de uma função de seleção.
 //Tipo retirar os numeros pares de uma lista e jogar em outra
+
+//Ex: 1,2,4 -> (1->null,2->4->null)
+
+//TODO: refatorar essa funcao
 fun <T> quebraListaFuncao(lista:LinkedList<T>?, funcao:(T) -> Boolean):Pair<LinkedList<T>?,LinkedList<T>?>{
     if(lista?.head == null) return Pair(null,null);
     else if(funcao(lista.head.elemento)){ //Caso base
-      val l1 = quebraListaFuncao(LinkedList<T>(Node(lista.head?.proximo, lista.head?.proximo?.proximo)));
-      val l2 = LinkedList<T>(Node(lista.head.elemento, null));
-      return Pair(null, l2);
-    }
-
-    return LinkedList  
-
+        if(lista.head.proximo == null) return Pair(null, lista);
+        val listaQuebrada = quebraListaFuncao(LinkedList<T>(Node(lista.head.proximo.elemento,lista.head.proximo.proximo )), funcao)
+        val l1 = listaQuebrada.first;
+        val l2 = LinkedList<T>(Node(lista.head.elemento, listaQuebrada.second?.head));
+        return Pair(l1,l2);
+    }   
+    
+    else if(lista.head.proximo == null) return Pair(lista, null);
+    val listaQuebrada = quebraListaFuncao(LinkedList<T>(Node(lista.head.proximo.elemento,lista.head.proximo.proximo )), funcao)
+    val l1 = LinkedList<T>(Node(lista.head.elemento, listaQuebrada.first?.head));
+    val l2 = listaQuebrada.second;
+    return Pair(l1, l2); 
+    
+}
+//1.h Implemente uma função para mesclar duas listas ordenadas
+fun <T> mescladaOrdenada(l1:LinkedList<T>?, l2:LinkedList<T>?):LinkedList<T>?{
+    if(l1?.head?.proximo == null) return l2;
+    else if(l2?.head?.proximo == null) return l1;
+    val rec = mescladaOrdenada(LinkedList<T>(Node(l1.head.proximo.elemento, l1.head.proximo.proximo)), LinkedList<T>(Node(l2.head.proximo.elemento, l2.head.proximo.proximo)));
+    return LinkedList<T>(Node(l1.head.elemento, Node(l2.head.elemento, rec?.head))); 
 }
 
+//1.i Implemente pelo meno um dos métodos de ordenação vistos: Bolha, Seleção, Inserção, Mergesort ou quicksort. Para ordenar uma lista de inteiros.
+fun bubbleSort(lista:LinkedList<Int>): LinkedList<Int>? {
+    if(lista.head == null) return null;
+    if(lista.head.proximo == null) return lista;
+    else if(lista.head.elemento < lista.head.proximo.elemento){ 
+        return LinkedList<Int>(Node(lista.head.elemento, bubbleSort(LinkedList<Int>(Node(lista.head.proximo.elemento, lista.head.proximo.proximo)))?.head))
+    }
+    return LinkedList<Int>(Node(lista.head.proximo.elemento, bubbleSort(LinkedList<Int>(Node(lista.head.elemento, lista.head.proximo.proximo)))?.head));
+}
 
 fun main (){
     println("Lista encadeada")
     
 
-    val lista1: LinkedList<Int> = LinkedList<Int>(Node(1,Node(2,Node(3,Node<Int>(6,null)))));
-    val lista2: LinkedList<Int> = LinkedList<Int>(Node(1,Node(3,Node<Int>(6,null))));
-    val lista3: LinkedList<Int> = LinkedList<Int>(Node(1,Node(2,Node(3,Node<Int>(6,null)))));
+    val lista1: LinkedList<Int> = LinkedList<Int>(Node(5,Node(2,Node(3,Node<Int>(6,null)))));
+    val lista2: LinkedList<Int> = LinkedList<Int>(Node(8,Node(12,Node<Int>(6,null))));
+    val lista3: LinkedList<Int> = LinkedList<Int>(Node(16,Node(5,Node(51,Node<Int>(6,null)))));
 
   
 
@@ -124,6 +150,11 @@ fun main (){
 
     println("Dividindo a lista mesclada na posicao 2: ${par(2)}")
     println("Dividindo a lista mesclada na posicao 1: ${par(1)}")
+  
+    val isPair = {x:Int -> x%2 == 0}
+    println("Separando a lista mesclada em numeros impares e pares: ${quebraListaFuncao(lista12, isPair)}")
+    
+    println("Mesclando as listas 1 e 2 ordenamente: ${mescladaOrdenada(lista1, lista2)}")
 
-
+    println("Bubble sort lista 1: ${bubbleSort(lista1)}")
 }
