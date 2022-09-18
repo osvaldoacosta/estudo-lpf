@@ -13,6 +13,10 @@ fun avalLazy(){
     println("x:${x} y:${y}")
     val soma by lazy{x+y};
     println("${soma}")
+
+    val sub lazy = {a:Int,b:Int -> a-b}
+    println(sub(1,2));
+
 }
 fun main (){
   avalLazy();
