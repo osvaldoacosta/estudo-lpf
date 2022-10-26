@@ -106,6 +106,7 @@ fun <T> quebraListaFuncao(lista:LinkedList<T>?, funcao:(T) -> Boolean):Pair<Link
     return Pair(l1, l2); 
     
 }
+
 //1.h Implemente uma função para mesclar duas listas ordenadas
 fun <T> mescladaOrdenada(l1:LinkedList<T>?, l2:LinkedList<T>?):LinkedList<T>?{
     if(l1?.head?.proximo == null) return l2;
@@ -124,20 +125,22 @@ fun bubbleSort(lista:LinkedList<Int>): LinkedList<Int>? {
     return LinkedList<Int>(Node(lista.head.proximo.elemento, bubbleSort(LinkedList<Int>(Node(lista.head.elemento, lista.head.proximo.proximo)))?.head));
 }
 
+fun inverterLista(lista:LinkedList<T>):LinkedList<T>{
+    if(lista.head.proximo == null) return lista;
+    val a = LinkedList<T>(Node(inverterLista(lista.head.proximo).value,Node(lista.head.elemento, null)));
+    return a;
+}
+
 fun main (){
     println("Lista encadeada")
     
-
     val lista1: LinkedList<Int> = LinkedList<Int>(Node(5,Node(2,Node(3,Node<Int>(6,null)))));
     val lista2: LinkedList<Int> = LinkedList<Int>(Node(8,Node(12,Node<Int>(6,null))));
     val lista3: LinkedList<Int> = LinkedList<Int>(Node(16,Node(5,Node(51,Node<Int>(6,null)))));
 
-  
-
     println("Lista 1: ${lista1}");
     println("Lista 2: ${lista2}");
     println("Lista 3: ${lista3}");
-
   
     println("lista 1 = lista 2?: ${lista1.equals(lista2)}"); 
     println("lista 1 = lista 3?: ${lista1.equals(lista3)}");

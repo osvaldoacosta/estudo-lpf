@@ -6,6 +6,8 @@ fun avalEager(){
 
   val soma = run {x+y}
   println("${soma}")
+
+  val l = listOf(1,2,3,4,5)
 }
 fun avalLazy(){
     val x:Int by lazy {1+2}
@@ -14,10 +16,15 @@ fun avalLazy(){
     val soma by lazy{x+y};
     println("${soma}")
 
-    val sub lazy = {a:Int,b:Int -> a-b}
-    println(sub(1,2));
-
+    
+    val s = sequenceOf(1,2,3,4,5)
+    val sm = s.map{ x-> println("${x}");x*x}
+    val a = sm.take(2).toList();    
+    println(a)
 }
+
+
+
 fun main (){
   avalLazy();
   avalEager();
