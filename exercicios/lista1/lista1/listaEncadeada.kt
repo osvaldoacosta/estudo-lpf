@@ -1,3 +1,4 @@
+package listaEncadeada
 //1.a Implemente o tipo de dado lista ligadas para um tipo de dado genérico. Defina manualmente métodos equals e toString
 
 class Node<T> (val elemento: T, val proximo:Node<T>?){
@@ -110,7 +111,7 @@ fun <T> mescladaOrdenada(l1:LinkedList<T>?, l2:LinkedList<T>?):LinkedList<T>?{
     if(l1?.head?.proximo == null) return l2;
     else if(l2?.head?.proximo == null) return l1;
     val rec = mescladaOrdenada(LinkedList<T>(Node(l1.head.proximo.elemento, l1.head.proximo.proximo)), LinkedList<T>(Node(l2.head.proximo.elemento, l2.head.proximo.proximo)));
-    return LinkedList<T>(Node(l1.head.elemento, Node(l2.head.elemento, rec?.head))); 
+    return LinkedList<T>(Node(l1.head.elemento, Node(l2.head.elemento, rec?.head)));
 }
 
 //1.i Implemente pelo meno um dos métodos de ordenação vistos: Bolha, Seleção, Inserção, Mergesort ou quicksort. Para ordenar uma lista de inteiros.

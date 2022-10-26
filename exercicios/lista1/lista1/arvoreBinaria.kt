@@ -1,3 +1,7 @@
+
+
+
+
 //2.a Implemente o tipo de dado para árvore binária para elementos genéricos
 class Node<T>(val elem: T, val esquerda:Node<T>?, val direita:Node<T>?){
     override fun toString():String{
@@ -30,6 +34,12 @@ fun isBinaryTree(bt:BinaryTree<Int>): Boolean {
     return bte && btd;
 }
 
+//2.d Escreva uma função para gerar a lista de folhas (nós sem filhos) de uma árvore binária
+//Vou ter q importar do outro bagui >_<
+fun<T> gerarListaDeFolhas(bt:BinaryTree<T>):LinkedList<T>?{
+    
+    return LinkedList(null); 
+}
 fun main (){
     val arvore:BinaryTree<Int> = BinaryTree(Node(1,Node(2,null,null),Node(3,null,null)));
 
